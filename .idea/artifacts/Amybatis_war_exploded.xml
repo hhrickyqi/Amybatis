@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Amybatis:war exploded">
+    <output-path>$PROJECT_DIR$/../Amybatis/out/artifacts/Amybatis_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Amybatis/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Amybatis" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
