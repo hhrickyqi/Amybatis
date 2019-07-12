@@ -4,10 +4,59 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.weichuang.dao.UserMapper">
     <!-- User getUserById(int id);-->
-    <select id="getUserById" parameterType="Integer" resultType="com.weichuang.pojo.User">
-        select * from user where id = #{id}
+    <select id="getUserById" parameterType="Integer" resultType="User">
+        select * from t_user where id = #{id}
     </select>
-    <select id="getUserByname" parameterType="String" resultType="com.weichuang.pojo.User">
-        SELECT * FROM USER WHERE NAME = #{NAME}
+
+    <select id="getUserByName" parameterType="String" resultType="com.weichuang.pojo.User">
+        SELECT * FROM t_user WHERE NAME = #{NAME}
+    </select>
+
+    <insert id="insertUser" parameterType="User">
+        insert into t_user values(null,#{name},#{email},#{sex})
+    </insert>
+    
+    <select id="getUserByQueryVo" resultType="User" parameterType="QueryVo">
+        select * from t_user WHERE NAME LIKE "%"#{user.name}"%"
+    </select>
+
+    <select id="getCountForUser" resultType="Integer">
+        select count(*) from t_user
+    </select>
+
+    <sql id="selector">select * from t_user</sql>
+    <select id="getUsersByNameAndSex" resultType="User" parameterType="User">
+        <include refid="selector"/>
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="getUserByIds" resultType="User">
+        <include refid="selector"/>
+
+        <where> id in
+            <foreach collection="list" open="(" separator="," close=")" item="id">
+                #{id}<!--或者吧id in 放在open里面也行-->
+            </foreach>
+
+        </where>
+
+    </select>
+
+
+    <select id="getUsersByQueryVo" resultType="User" parameterType="QueryVo">
+        <include refid="selector"/>
+        <where>
+            <foreach collection="ids" open="id in (" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
     </select>
 </mapper>
